@@ -8,11 +8,13 @@
 #
 #
 
-import cmath 
+import cmath
+import itertools
 import numpy as np
 import numpy.matlib
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
+
 
 class Complex(complex):
 	def __repr__(self):
@@ -27,7 +29,6 @@ class Complex(complex):
 
 	def pureReal(self):
 		return abs(self.imag) < 0.000005 
-
 
 # Computes n-roots of unity, using Complex number class
 def croots(n):
@@ -52,48 +53,76 @@ def computeFFT():
 
 	print yf
 
-def computeDFT(x):
-	x = np.asarray(x, dtype=float)
-	N = x.shape[0]
-	#print "N:", N
-	n = np.arange(N)
-	k = n.reshape((N, 1))
-	M = np.exp(-2j * np.pi * k * n/N)
+# def computeDFT(x):
+# 	x = np.asarray(x, dtype=float)
+# 	N = x.shape[0]
+# 	#print "N:", N
+# 	n = np.arange(N)
+# 	k = n.reshape((N, 1))
+# 	M = np.exp(-2j * np.pi * k * n/N)
 
-	return np.dot(M, x)
+# 	return np.dot(M, x)
+
+def computeDFT(sequence):
+	return np.fft.fft(sequence)
+
+def computeInverseDFT(sequence):
+	return np.fft.ifft(sequence)
 
 def testIfCorrect(matrix):
 	return np.allclose(matrix, np.fft.fft(matrix))
+
+def plotSignal(signal):
+	try:
+		plt.plot(signal)
+		plt.grid()
+		plt.show()
+
+	except AttributeError as err:
+		raise err
+
+def plotRootsOfUnity(roots):
+	try:
+		colors = itertools.cycle(['r', 'g', 'b', 'y'])
+
+		plt.figure(figsize=(6,6))
+
+		for root in roots:
+			plt.arrow(0, 0, root.real, root.imag, ec=colors.next())
+
+		plt.xlim(-1.5,1.5)
+		plt.ylim(-1.5,1.5)
+		plt.show()
+
+	except AttributeError as err:
+		raise err
+
+def computeIdentityMatrix(n):
+	return np.matlib.identity(n)
 
 # Reads in text file, extracts data
 def readInTextFile(fileName):
 	with open(fileName) as fp:
 		return [line.strip('\n') for line in fp]
 
-
 if __name__ == "__main__":
 	# printCroots(5)
 	#computeFFT()
 
-	#print matrix
-	#print np.fft.ifft([4, 8, 16, 32])
+	roots = croots(5)
 
 	signals = readInTextFile("1Dsignal.txt")
 
-	container = [4, 8, 16, 32]
+	sequence = [4, 8, 16, 32]
 
-	matrix1 = np.fft.fft(container)
-	print matrix1
+	dft = computeDFT(sequence)
+	idft = computeInverseDFT(sequence)
+	
+	print "DFT:\n", dft, "\n"
+	print "IDFT:\n", idft, "\n"
+	print "DFT*IDFT:\n", np.dot(dft, idft), "\n"
 
-	matrix2 = np.fft.ifft(container)
-	print matrix2
+	plotSignal(signals)
+	plotRootsOfUnity(roots)
 
-	print matrix1 * matrix2
-
-	print np.matlib.identity(2)
-
-	#plt.plot(, 1.0/N * np.abs(yplot))
-	plt.plot(signals)
-	plt.grid()
-	plt.show()
 	
