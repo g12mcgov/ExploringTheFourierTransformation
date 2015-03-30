@@ -10,6 +10,7 @@
 
 import cmath 
 import numpy as np
+import numpy.matlib
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
 
@@ -61,38 +62,38 @@ def computeDFT(x):
 
 	return np.dot(M, x)
 
-def testIfCorrect():
-	pass
+def testIfCorrect(matrix):
+	return np.allclose(matrix, np.fft.fft(matrix))
 
 # Reads in text file, extracts data
 def readInTextFile(fileName):
-	print "hi"
-	# with open(fileName) as fp:
-	# 	signals = [line for line in fp]
-
-	# 	print signals
-
-		# return signals
+	with open(fileName) as fp:
+		return [line.strip('\n') for line in fp]
 
 
 if __name__ == "__main__":
 	# printCroots(5)
 	#computeFFT()
-	matrix = computeDFT([4, 8, 16, 32])
-	
 
 	#print matrix
-	print np.fft.ifft([4, 8, 16, 32])
+	#print np.fft.ifft([4, 8, 16, 32])
 
-	# print "Inverse:\n\n"
-	# print np.linalg.inv(matrix)
+	signals = readInTextFile("1Dsignal.txt")
 
-	# readInTextFile("1Dsignal.txt")
-	# print results
+	container = [4, 8, 16, 32]
 
-	x = np.random.random(1024)
-	print np.allclose(computeDFT(x), np.fft.fft(x))
+	matrix1 = np.fft.fft(container)
+	print matrix1
 
+	matrix2 = np.fft.ifft(container)
+	print matrix2
 
-	#plt.plot(xf, 1.0/N * np.abs(yplot))
+	print matrix1 * matrix2
+
+	print np.matlib.identity(2)
+
+	#plt.plot(, 1.0/N * np.abs(yplot))
+	plt.plot(signals)
+	plt.grid()
+	plt.show()
 	
