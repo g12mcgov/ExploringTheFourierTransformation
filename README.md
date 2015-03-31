@@ -6,7 +6,7 @@ Installing:
 
 Clone it:
 
-`$git clone https://github.com/g12mcgov/ExploringTheFourierTransformation.git`
+`$ git clone https://github.com/g12mcgov/ExploringTheFourierTransformation.git`
 
 Run the install script to install modules:
 
