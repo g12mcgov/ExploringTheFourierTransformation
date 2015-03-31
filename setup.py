@@ -8,12 +8,15 @@
 
 from setuptools import setup, find_packages
 
+print "Setting up environment...\n"
+
 ## Get our requirements from our .txt file
 with open('requirements.txt') as requirements:
 	modules = [line.strip('\n') for line in requirements]
 
+print "Install pip modules... (This might take awhile)\n"
+
 setup(name = 'Lab3',
-	version = '1.0',
 	description = 'Exploring the Fast Fourier Transformation.',
 	author = 'Grant McGovern',
 	author_email = 'mcgoga12@wfu.edu',

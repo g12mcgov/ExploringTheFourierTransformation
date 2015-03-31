@@ -12,6 +12,7 @@ import cmath
 import itertools
 import numpy as np
 import numpy.matlib
+import seaborn as sns
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
 
@@ -83,15 +84,31 @@ def plotSignal(signal):
 
 def plotRootsOfUnity(roots):
 	try:
-		colors = itertools.cycle(['r', 'g', 'b', 'y'])
+		#colors = itertools.cycle(['r', 'g', 'b', 'y'])
+
+		# plt.figure(figsize=(6,6))
+
+		# for root in roots:
+		# 	plt.arrow(0, 0, root.real, root.imag, ec=colors.next())
+
+		# plt.xlim(-1.5,1.5)
+		# plt.ylim(-1.5,1.5)
+		# plt.show()
+
+
+		colors = sns.color_palette("hls", roots[-1])
+
+		# Sorted by angle
+		idx = np.argsort([np.angle(x) for x in roots])
+		roots = roots[idx]
 
 		plt.figure(figsize=(6,6))
 
-		for root in roots:
-			plt.arrow(0, 0, root.real, root.imag, ec=colors.next())
+		for root,c in zip(roots,colors):
+		    plt.arrow(0,0,root.real,root.imag,ec=c,lw=3)
 
-		plt.xlim(-1.5,1.5)
-		plt.ylim(-1.5,1.5)
+		plt.xlim(-1.25,1.25)
+		plt.ylim(-1.25,1.25)
 		plt.show()
 
 	except AttributeError as err:
@@ -122,7 +139,11 @@ if __name__ == "__main__":
 	print "IDFT:\n", idft, "\n"
 	print "DFT*IDFT:\n", np.dot(dft, idft), "\n"
 
-	plotSignal(signals)
+	#plotSignal(signals)
+	for item in roots:
+		print item
+
+		
 	plotRootsOfUnity(roots)
 
 	
