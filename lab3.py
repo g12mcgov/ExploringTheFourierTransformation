@@ -12,7 +12,6 @@ import cmath
 import itertools
 import numpy as np
 import numpy.matlib
-import seaborn as sns
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
 
@@ -84,31 +83,15 @@ def plotSignal(signal):
 
 def plotRootsOfUnity(roots):
 	try:
-		#colors = itertools.cycle(['r', 'g', 'b', 'y'])
-
-		# plt.figure(figsize=(6,6))
-
-		# for root in roots:
-		# 	plt.arrow(0, 0, root.real, root.imag, ec=colors.next())
-
-		# plt.xlim(-1.5,1.5)
-		# plt.ylim(-1.5,1.5)
-		# plt.show()
-
-
-		colors = sns.color_palette("hls", roots[-1])
-
-		# Sorted by angle
-		idx = np.argsort([np.angle(x) for x in roots])
-		roots = roots[idx]
+		colors = itertools.cycle(['r', 'g', 'b', 'y'])
 
 		plt.figure(figsize=(6,6))
 
-		for root,c in zip(roots,colors):
-		    plt.arrow(0,0,root.real,root.imag,ec=c,lw=3)
+		for root in roots:
+			plt.arrow(0, 0, root.real, root.imag, ec=colors.next())
 
-		plt.xlim(-1.25,1.25)
-		plt.ylim(-1.25,1.25)
+		plt.xlim(-1.5,1.5)
+		plt.ylim(-1.5,1.5)
 		plt.show()
 
 	except AttributeError as err:
@@ -123,27 +106,35 @@ def readInTextFile(fileName):
 		return [line.strip('\n') for line in fp]
 
 if __name__ == "__main__":
-	# printCroots(5)
-	#computeFFT()
+	# printCroots(5)'
 
-	roots = croots(5)
+	temp = Complex(1,1)
+	temp2 = Complex(1, 1)
+	
+	print temp*temp2
+
+	roots_2 = croots(2)
+	roots_4 = croots(4)
+	roots_8 = croots(8)
+
+	
+
 
 	signals = readInTextFile("1Dsignal.txt")
 
-	sequence = [4, 8, 16, 32]
+	g = [4, 8, 16, 32]
 
-	dft = computeDFT(sequence)
-	idft = computeInverseDFT(sequence)
+	ghat = computeDFT(g)
+	g2 = computeInverseDFT(ghat)
 	
-	print "DFT:\n", dft, "\n"
-	print "IDFT:\n", idft, "\n"
-	print "DFT*IDFT:\n", np.dot(dft, idft), "\n"
+	print "DFT:\n", ghat, "\n"
+	# print "IDFT:\n", , "\n"
+	for i in g2:
+		print i.real
 
-	#plotSignal(signals)
-	for item in roots:
-		print item
-
+	print "DFT*IDFT:\n", np.dot(ghat, g2), "\n"
 		
+	plotSignal(signals)
 	plotRootsOfUnity(roots)
 
 	
