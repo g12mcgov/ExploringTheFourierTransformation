@@ -19,5 +19,7 @@ Run the install script to install modules:
 Running:
 =======
 
+To run, simply execute the following:
+
 `$ python lab3.py`
 
