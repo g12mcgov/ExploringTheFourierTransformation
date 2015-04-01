@@ -118,7 +118,7 @@ def computeIF(F):
 def checkIfEqual(y, signals):
 	y1 = [float(int(element.real)) for element in y]
 
-	if len(y) != len(signals):
+	if len(y) != len(signals): 
 		raise Exception("Matrices not equal")
 	else:
 		for i, item in enumerate(signals):
@@ -140,6 +140,10 @@ if __name__ == "__main__":
 	roots_2 = croots(2)
 	roots_4 = croots(4)
 	roots_8 = croots(8)
+
+	plotRootsOfUnity(roots_2)
+	plotRootsOfUnity(roots_4)
+	plotRootsOfUnity(roots_8)
 
 	print "\nRoots 2:\n"
 	for root in roots_2:
@@ -178,8 +182,7 @@ if __name__ == "__main__":
 	print "Matrices Equivalent: ", checkIfEqual(y, signals)
 
 	# Plot Graphs:
-	plotSignal(signals)
-	plotRootsOfUnity(roots_8)
+	#plotSignal(signals)
 
 
 	
