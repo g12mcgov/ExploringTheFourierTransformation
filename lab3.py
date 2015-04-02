@@ -9,12 +9,18 @@
 #
 
 import cmath
+import argparse
 import itertools
 import numpy as np
 import numpy.matlib
 from numpy.linalg import inv
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
+
+
+parser = argparse.ArgumentParser(description='Fast Fourier Transformation Exploration')
+parser.add_argument('-g', '--graph', help='Whether or not to output graphs', required=False)
+args = vars(parser.parse_args())
 
 class Complex(complex):
 	def __repr__(self):
@@ -147,6 +153,10 @@ def printcroots(roots,nth):
 		print negstring
 
 if __name__ == "__main__":
+
+	# for arg in args:
+
+
 	signals = readInTextFile("1Dsignal.txt")
 	
 	# Problem 1
@@ -156,15 +166,16 @@ if __name__ == "__main__":
 	printcroots(croots(16),16)
 	printcroots(croots(32),32)
 
-	plotRootsOfUnity(croots(2),2)
-	plotRootsOfUnity(croots(4),4)
-	plotRootsOfUnity(croots(8),8)
-	plotRootsOfUnity(croots(16),16)
-	plotRootsOfUnity(croots(32),32)
-	plotSignal(signals)
+	if args['graph']:
+		plotRootsOfUnity(croots(2),2)
+		plotRootsOfUnity(croots(4),4)
+		plotRootsOfUnity(croots(8),8)
+		plotRootsOfUnity(croots(16),16)
+		plotRootsOfUnity(croots(32),32)
+		plotSignal(signals)
 
 	# Problem 2
-		
+
 	# Computing F
 	print "\n"
 	print "F:"
@@ -187,15 +198,31 @@ if __name__ == "__main__":
 	# Finding 'g^'
 	g1D = np.dot(F1D, signals)
 
-	print "\n"
-	print g1D
+	print "\n", g1D
 
 	# Displays the frequency graph
 	print "\nDisplaying Frequency Graph...\n"
-	plotSignal(g1D)
+	magnitude = [abs(element) for element in g1D]
+	
+	if args['graph']:
+		plotFrequency(magnitude)
 
 	print "\nResult:\n"
 	y = np.dot(g1D, Finv1D)
+
+	
+	# Bonus Point Question:
+
+	# Set the first 200 elements to 0 (g0, ... ,g200)
+	g1D[0:200].real = 0
+	g1D[0:200].imag = 0
+
+	# Set the next 800 to 1024 elements to 0 (g800, ..., g1024)
+	g1D[800:1024].real = 0
+	g1D[800:1024].imag = 0
+
+	magnitude = [abs(element) for element in g1D]
+	plotFrequency(magnitude)
 
 	# Sanity check to see if y is equal to signals after
 	# all the operations have been performed.
