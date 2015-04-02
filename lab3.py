@@ -220,6 +220,10 @@ if __name__ == "__main__":
 
 	print "\nResult:\n"
 	y = np.dot(g1D, Finv1D)
+	magnitude = [abs(element) for element in y]
+	
+	if args['graph']:
+		plotFrequency(magnitude)
 
 	
 	# Bonus Point Question:
