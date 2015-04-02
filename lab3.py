@@ -178,9 +178,20 @@ if __name__ == "__main__":
 
 	# Computing F
 	print "\n"
-	print "F:"
+	print "F:2"
+	F = computeF(2)
+	print F
+
+	print "\n"
+	print "F:4"
 	F = computeF(4)
 	print F
+
+	print "\n"
+	print "F:8"
+	F = computeF(8)
+	print F
+
 
 	print "\n"
 	print "F^-1:"
