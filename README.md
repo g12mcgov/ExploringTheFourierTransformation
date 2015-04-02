@@ -23,3 +23,8 @@ To run, simply execute the following:
 
 `$ python lab3.py`
 
+If you would like to run it and output the graphs as well, add the following argument:
+
+`$ python lab3.py -g graph'
+
+
