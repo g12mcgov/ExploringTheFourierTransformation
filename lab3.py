@@ -141,10 +141,6 @@ if __name__ == "__main__":
 	roots_4 = croots(4)
 	roots_8 = croots(8)
 
-	plotRootsOfUnity(roots_2)
-	plotRootsOfUnity(roots_4)
-	plotRootsOfUnity(roots_8)
-
 	print "\nRoots 2:\n"
 	for root in roots_2:
 		print root
@@ -183,6 +179,9 @@ if __name__ == "__main__":
 
 	# Plot Graphs:
 	#plotSignal(signals)
+	plotRootsOfUnity(croots(2))
+	plotRootsOfUnity(croots(4))
+	plotRootsOfUnity(croots(8))
 
 
 	
