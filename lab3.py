@@ -15,8 +15,6 @@ import numpy.matlib
 from numpy.linalg import inv
 from scipy.fftpack import fft
 import matplotlib.pyplot as plt
-import collections
-
 
 class Complex(complex):
 	def __repr__(self):
@@ -55,16 +53,6 @@ def computeFFT():
 
 	print yf
 
-# def computeDFT(x):
-# 	x = np.asarray(x, dtype=float)
-# 	N = x.shape[0]
-# 	#print "N:", N
-# 	n = np.arange(N)
-# 	k = n.reshape((N, 1))
-# 	M = np.exp(-2j * np.pi * k * n/N)
-
-# 	return np.dot(M, x)
-
 def computeDFT(sequence):
 	return np.fft.fft(sequence)
 
@@ -78,12 +66,23 @@ def plotSignal(signal):
 	try:
 		plt.plot(signal)
 		plt.grid()
+		name = 'signal.png' 
+		plt.savefig(name)
 		plt.show()
 
 	except AttributeError as err:
 		raise err
 
-def plotRootsOfUnity(roots):
+def plotFrequency(signal):
+	try:
+		plt.plot(signal)
+		plt.grid()
+		plt.show()
+
+	except AttributeError as err:
+		raise err
+
+def plotRootsOfUnity(roots,i):
 	try:
 		colors = itertools.cycle(['r', 'g', 'b', 'y'])
 
@@ -94,7 +93,18 @@ def plotRootsOfUnity(roots):
 
 		plt.xlim(-1.5,1.5)
 		plt.ylim(-1.5,1.5)
+
+		plt.axes()
+
+		# Encomposes the graph in a circle
+		circle = plt.Circle((0, 0), radius=1, fc='w')
+		plt.gca().add_patch(circle)
+
+		#Save the file as png
+		name = 'roots_of_%d.png' % (i)
+		plt.savefig("graphs/" + name)
 		plt.show()
+
 
 	except AttributeError as err:
 		raise err
@@ -129,59 +139,68 @@ def checkIfEqual(y, signals):
 				
 		print "True"
 
-if __name__ == "__main__":
-	# printCroots(5)'
-
-	# A test to see if we're creating Complex numbers
-	complex_1 = Complex(1,1)
-	complex_2 = Complex(1,1)
+def printcroots(roots,nth):
+	print "\nRoots %s:\n"%(nth)
 	
-	# Problem 1
-	roots_2 = croots(2)
-	roots_4 = croots(4)
-	roots_8 = croots(8)
+	for root in roots:
+		negstring = " %-.5f + %-.5fi " % (root.real, root.imag)
+		print negstring
 
-	print "\nRoots 2:\n"
-	for root in roots_2:
-		print root
-
-	print "\nRoots 4:\n"
-	for root in roots_4:
-		print root
-
-	print "\nRoots 8:\n"
-	for root in roots_8:
-		print root
-
+if __name__ == "__main__":
 	signals = readInTextFile("1Dsignal.txt")
 	
-	# Problem 2
+	# Problem 1
+	printcroots(croots(2),2)
+	printcroots(croots(4),4)
+	printcroots(croots(8),8)
+	printcroots(croots(16),16)
+	printcroots(croots(32),32)
 
+	plotRootsOfUnity(croots(2),2)
+	plotRootsOfUnity(croots(4),4)
+	plotRootsOfUnity(croots(8),8)
+	plotRootsOfUnity(croots(16),16)
+	plotRootsOfUnity(croots(32),32)
+	plotSignal(signals)
+
+	# Problem 2
+		
 	# Computing F
-	print "F:\n"
+	print "\n"
+	print "F:"
 	F = computeF(4)
+	print F
+
+	print "\n"
+	print "F^-1:"
 	F_inverse = computeIF(F)
+	print F_inverse
 	
+	print "\n"
+	print "Identity Matrix Check"
 	print np.dot(F, F_inverse)
 
 	# Computing F again step (b)
-	F_part_2 = computeF(1024)
-	F_part_3 = computeIF(computeF(1024))
+	F1D = computeF(1024)
+	Finv1D = computeIF(computeF(1024))
 
-	g_hat = np.dot(F_part_2, signals)
+	# Finding 'g^'
+	g1D = np.dot(F1D, signals)
+
+	print "\n"
+	print g1D
+
+	# Displays the frequency graph
+	print "\nDisplaying Frequency Graph...\n"
+	plotSignal(g1D)
 
 	print "\nResult:\n"
-	y = np.dot(g_hat, F_part_3)
+	y = np.dot(g1D, Finv1D)
 
 	# Sanity check to see if y is equal to signals after
 	# all the operations have been performed.
 	print "Matrices Equivalent: ", checkIfEqual(y, signals)
 
-	# Plot Graphs:
-	#plotSignal(signals)
-	plotRootsOfUnity(croots(2))
-	plotRootsOfUnity(croots(4))
-	plotRootsOfUnity(croots(8))
 
 
 	
