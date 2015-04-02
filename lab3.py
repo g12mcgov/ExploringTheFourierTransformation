@@ -215,28 +215,31 @@ if __name__ == "__main__":
 	print "\nDisplaying Frequency Graph...\n"
 	magnitude = [abs(element) for element in g1D]
 	
-	if args['graph']:
-		plotFrequency(magnitude)
+	# if args['graph']:
+	# 	plotFrequency(magnitude)
 
 	print "\nResult:\n"
 	y = np.dot(g1D, Finv1D)
 	magnitude = [abs(element) for element in y]
 	
-	if args['graph']:
-		plotFrequency(magnitude)
+	# if args['graph']:
+	# 	plotFrequency(magnitude)
 
 	
 	# Bonus Point Question:
 
-	# Set the first 200 elements to 0 (g0, ... ,g200)
-	g1D[0:200].real = 0
-	g1D[0:200].imag = 0
+	# Only keep g values between 200 and 1000
+	g1D[200:1000].real = 0
+	g1D[200:1000].imag = 0
 
-	# Set the next 800 to 1024 elements to 0 (g800, ..., g1024)
-	g1D[800:1024].real = 0
-	g1D[800:1024].imag = 0
+	# magnitude = [abs(element) for element in g1D]
+	# plotFrequency(magnitude)
 
-	magnitude = [abs(element) for element in g1D]
+	print "Plotting g1D inverse:\n"
+
+	g1D_inverse = np.dot(g1D, Finv1D)
+	magnitude = [abs(element) for element in g1D_inverse]
+	
 	plotFrequency(magnitude)
 
 	# Sanity check to see if y is equal to signals after
