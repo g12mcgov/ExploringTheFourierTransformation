@@ -1,5 +1,5 @@
 # ExploringTheFourierTransformation
-Lab #3 from my CSC 222 Data Structures &amp; Algorithms II class.
+[Lab #3](https://github.com/g12mcgov/ExploringTheFourierTransformation/blob/master/notes/Lab3.pdf) from my CSC 222 Data Structures &amp; Algorithms II class.
 
 Installing:
 =======
