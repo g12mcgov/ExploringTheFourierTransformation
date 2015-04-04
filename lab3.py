@@ -48,6 +48,11 @@ def printCroots(n):
 	for item in range(2, int(n+1)):
 		print item, list(croots(item))
 
+
+def fourierMatrix(n):
+	# python magic to make a matrix in one line of code
+	return [[(cmath.exp(complex(0,2*math.pi*x*-y)/n)) for x in range(n)] for y in range(n)]
+	
 def computeFFT():
 	N = 2
 	T = (1.0 / 800.0)
@@ -232,8 +237,8 @@ if __name__ == "__main__":
 	g1D[200:1000].real = 0
 	g1D[200:1000].imag = 0
 
-	# magnitude = [abs(element) for element in g1D]
-	# plotFrequency(magnitude)
+	magnitude = [abs(element) for element in g1D]
+	plotFrequency(magnitude)
 
 	print "Plotting g1D inverse:\n"
 
